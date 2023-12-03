@@ -1,8 +1,16 @@
-# React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Currently, two official plugins are available:
+SkyCast ReactJS
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Tech Stack
+
+This project is built using the following technologies:
+
+- **ReactJS:**
+
+- **Vite:** A fast build tool for modern web development. It is designed to be flexible and scalable, providing a rapid development experience.
+
+- **Tailwind CSS:** 
+
+- **React-Toastify:** A popular toast notification library for React applications. It provides a simple way to display non-intrusive alerts and notifications.
+

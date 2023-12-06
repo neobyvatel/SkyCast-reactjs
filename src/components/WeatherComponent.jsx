@@ -1,4 +1,5 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { Line } from "react-chartjs-2";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -37,52 +38,62 @@ const WeatherComponent = () => {
   const handleCityNameChange = (e) => {
     setCityName(e.target.value);
   };
+  const fetchData = async (url) => {
+    try {
+      const resp = await fetch(url);
+      const data = await resp.json();
+      return [data, null];
+    } catch (err) {
+      return [null, err];
+    }
+  };
+  const generateWeatherUrl = (cityName, endpoint) => {
+    const key = "e31236ca2959caf5178b8298a93073e8";
+    const lang = "en";
+    const units = "metric";
+    const baseUrl = "https://api.openweathermap.org/data/2.5";
 
-  const handleFetchWeather = () => {
+    return `${baseUrl}/${endpoint}?q=${cityName}&appid=${key}&lang=${lang}&units=${units}`;
+  };
+  const handleFetchWeather = async () => {
     if (cityName.trim() === "") {
       showToast("Invalid empty input. ");
       return;
     }
+    const nowcastUrl = generateWeatherUrl(cityName, "weather");
+    const forecastUrl = generateWeatherUrl(cityName, "forecast");
 
-    const key = "e31236ca2959caf5178b8298a93073e8";
-    const lang = "en";
-    const units = "metric";
-
-    const currentWeatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${key}&lang=${lang}&units=${units}`;
-
-    fetch(currentWeatherUrl)
-      .then((resp) => {
-        if (!resp.ok) throw new Error(resp.statusText);
-        return resp.json();
-      })
-      .then((currentWeatherData) => {
-        showWeather(currentWeatherData);
-      })
-      .catch((error) => {
-        console.log(error);
-        showToast("City not found. Try again.");
-      });
+    const [nowcastData, nowcastErr] = await fetchData(nowcastUrl);
+    const [forecastData, forecastErr] = await fetchData(forecastUrl);
+    if (nowcastData[1] || forecastData[1]) {
+      console.error("Error fetching data: ", nowcastErr, forecastErr);
+    } else {
+      showWeather(nowcastData, forecastData);
+    }
 
     setCityName("");
   };
 
-  function showWeather(currentWeatherData) {
+  function showWeather(currentWeatherData, forecastData) {
+    console.log("Forecast Data:", forecastData);
     console.log("Current Weather:", currentWeatherData);
 
     // Display current weather data
-    setWeatherData({
-      updateTime: getCurrentTime(),
-      city: `${currentWeatherData.name}, ${currentWeatherData.sys.country}`,
-      temp: `${currentWeatherData.main.temp}°C`,
-      feelsLike: `${currentWeatherData.main.feels_like}°C`,
-      windSpeed: `Wind speed: ${currentWeatherData.wind.speed} m/s`,
-      windDirection: `Direction: ${currentWeatherData.wind.deg}°`,
-      weatherDescription: currentWeatherData.weather[0].description,
-      humidity: `${currentWeatherData.main.humidity}%`,
-      pressure: `${currentWeatherData.main.pressure} hPa`,
-      sunrise: formatTimeFromTimestamp(currentWeatherData.sys.sunrise),
-      sunset: formatTimeFromTimestamp(currentWeatherData.sys.sunset),
-    });
+    if (currentWeatherData && currentWeatherData.sys) {
+      setWeatherData({
+        updateTime: getCurrentTime(),
+        city: `${currentWeatherData.name}, ${currentWeatherData.sys.country}`,
+        temp: `${currentWeatherData.main.temp}°C`,
+        feelsLike: `${currentWeatherData.main.feels_like}°C`,
+        windSpeed: `Wind speed: ${currentWeatherData.wind.speed} m/s`,
+        windDirection: `Direction: ${currentWeatherData.wind.deg}°`,
+        weatherDescription: currentWeatherData.weather[0].description,
+        humidity: `${currentWeatherData.main.humidity}%`,
+        pressure: `${currentWeatherData.main.pressure} hPa`,
+        sunrise: formatTimeFromTimestamp(currentWeatherData.sys.sunrise),
+        sunset: formatTimeFromTimestamp(currentWeatherData.sys.sunset),
+      });
+    }
   }
 
   function getCurrentTime() {
@@ -141,14 +152,14 @@ const WeatherComponent = () => {
           type="button"
           id="btnFetch"
           onClick={handleFetchWeather}
-          className="block w-full rounded-lg bg-[#591D87] p-2 px-4 text-sm font-semibold text-gray-200 transition-all hover:bg-[#461669] dark:bg-[#D0BCFF] dark:text-black dark:hover:bg-[#B899FF]"
+          className="block w-full rounded-lg border border-transparent bg-[#591D87] p-2 px-4 text-sm font-semibold text-gray-200 transition-all hover:border-neutral-950 hover:bg-[#461669] dark:bg-[#D0BCFF] dark:text-black dark:hover:border-neutral-100 dark:hover:bg-[#B899FF]"
         >
           Get Weather
         </button>
       </form>
 
       <div className="mt-5 flex flex-col flex-wrap gap-5 text-white  md:flex-row [&>*]:rounded-lg [&>*]:p-7 [&>*]:font-bold [&>*]:shadow-lg [&>*]:transition-all">
-        <div className="flex-1 border border-transparent bg-fuchsia-800 hover:border-neutral-800 hover:bg-fuchsia-900 dark:bg-amber-700 dark:hover:border-neutral-200 dark:hover:bg-amber-800">
+        <div className="flex-1 border border-transparent bg-fuchsia-800 hover:border-neutral-800 hover:bg-fuchsia-900 dark:bg-rose-900 dark:hover:border-neutral-200 dark:hover:bg-rose-800">
           <p id="updateTime" className="text-sm">
             Update time: {weatherData.updateTime}
           </p>
@@ -162,7 +173,7 @@ const WeatherComponent = () => {
             feels like <span id="feelsLike">{weatherData.feelsLike}</span>
           </p>
         </div>
-        <div className="flex-1 border border-transparent bg-purple-800 hover:border-neutral-800 hover:bg-purple-900 dark:bg-violet-700 dark:hover:border-neutral-100 dark:hover:bg-violet-800">
+        <div className="flex-1 border border-transparent bg-purple-800 hover:border-neutral-800 hover:bg-purple-900 dark:bg-violet-900 dark:hover:border-neutral-100 dark:hover:bg-violet-800">
           <h1 id="windSpeed" className="text-4xl">
             {weatherData.windSpeed}
           </h1>
@@ -176,7 +187,7 @@ const WeatherComponent = () => {
             humidity: <span id="humidity">{weatherData.humidity}</span>%
           </p>
         </div>
-        <div className="w-full border border-transparent bg-rose-800 hover:border-neutral-800 hover:bg-rose-900 dark:bg-fuchsia-700 dark:hover:border-neutral-200 dark:hover:bg-fuchsia-800">
+        <div className="w-full border border-transparent bg-rose-800 hover:border-neutral-800 hover:bg-rose-900 dark:bg-fuchsia-900 dark:hover:border-neutral-200 dark:hover:bg-fuchsia-800">
           <p id="weatherDescription" className="text-4xl">
             {weatherData.weatherDescription}
           </p>

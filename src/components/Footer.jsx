@@ -1,9 +1,9 @@
 function Footer() {
   return (
-    <footer className="mt-auto bg-white px-7 pb-10 pt-2 text-black dark:bg-neutral-900 dark:text-slate-200">
+    <footer className="mt-auto bg-transparent px-7 pb-10 pt-2 text-black  dark:text-slate-200">
       <div
         id="contact"
-        className="flex gap-4 py-3 text-[#591D87] dark:text-[#D0BCFF] [&>*]:rounded-full [&>*]:bg-[#F6F4F8] [&>*]:p-2 [&>*]:dark:bg-[#1B1A1E]"
+        className="[&>:]:backdrop-blur-lg [&>:]:backdrop-filter flex gap-4 py-3 text-[#591D87] dark:text-[#D0BCFF] [&>*]:rounded-full [&>*]:bg-[#F6F4F8] [&>*]:p-2 [&>*]:dark:bg-[#1B1A1E]"
       >
         <a
           href="https://t.me/qqqyyyttwwrr"

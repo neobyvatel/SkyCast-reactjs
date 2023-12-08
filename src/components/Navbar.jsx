@@ -8,7 +8,7 @@ const Header = () => {
   };
 
   return (
-    <div className="w-full bg-white text-gray-700 dark:bg-neutral-900 dark:text-gray-200">
+    <div className="fixed top-0 z-50 w-full text-gray-700 shadow-sm  dark:text-gray-200">
       <div className="mx-auto flex max-w-screen-xl flex-col px-4 md:flex-row md:items-center md:justify-between md:px-6 lg:px-8">
         <div className="flex flex-row items-center justify-between p-4">
           <a
@@ -53,12 +53,12 @@ const Header = () => {
           } flex-grow flex-col pb-4 md:flex md:flex-row md:justify-end md:pb-0`}
         >
           <a
-            className="focus:shadow-outline mt-2 rounded-lg px-4 py-2 text-sm text-gray-900 transition-all hover:bg-gray-200 hover:text-gray-900 focus:bg-gray-200 focus:text-gray-900 focus:outline-none dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:bg-gray-600 dark:focus:text-white md:ml-4 md:mt-0"
+            className="focus:shadow-outline mt-2 rounded-lg px-4 py-2 text-sm text-gray-900 transition-all hover:bg-gray-200  hover:text-gray-900 focus:bg-gray-200 focus:text-gray-900 focus:outline-none dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:bg-gray-600 dark:focus:text-white md:ml-4 md:mt-0"
             href=""
           >
             Weather
           </a>
-          {/* <a
+          <a
             href="#"
             className="focus:shadow-outline mt-2 rounded-lg bg-transparent px-4 py-2 text-sm transition-all hover:bg-gray-200 hover:text-gray-900 focus:bg-gray-200 focus:text-gray-900 focus:outline-none dark:bg-transparent dark:text-gray-200 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:bg-gray-600 dark:focus:text-white md:ml-4 md:mt-0"
           >
@@ -69,7 +69,7 @@ const Header = () => {
             className="focus:shadow-outline mt-2 rounded-lg bg-transparent px-4 py-2 text-sm transition-all hover:bg-gray-200 hover:text-gray-900 focus:bg-gray-200 focus:text-gray-900 focus:outline-none dark:bg-transparent dark:text-gray-200 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:bg-gray-600 dark:focus:text-white md:ml-4 md:mt-0"
           >
             About
-          </a> */}
+          </a>
         </nav>
       </div>
     </div>

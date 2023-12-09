@@ -23,6 +23,8 @@ const WeatherComponent = () => {
     placeholderValue: "Search for a city",
     city: "City, Country",
     temp: "--°C",
+    minTemp: "--°C",
+    maxTemp: "--°C",
     feelsLike: "--°C",
     windSpeed: "wind speed: -- m/s",
     windDirection: "direction: --",
@@ -127,9 +129,11 @@ const WeatherComponent = () => {
         placeholderValue: `${currentWeatherData.name}, ${currentWeatherData.sys.country}`,
         city: `${currentWeatherData.name}, ${currentWeatherData.sys.country}`,
         temp: `${currentWeatherData.main.temp}°C`,
+        minTemp: `${currentWeatherData.main.temp_min}°C`,
+        maxTemp: `${currentWeatherData.main.temp_max}°C`,
         feelsLike: `${currentWeatherData.main.feels_like}°C`,
-        windSpeed: `Wind speed: ${currentWeatherData.wind.speed} m/s`,
-        windDirection: `Direction: ${currentWeatherData.wind.deg}°`,
+        windSpeed: `${currentWeatherData.wind.speed} m/s`,
+        windDirection: `${currentWeatherData.wind.deg}°`,
         weatherDescription: currentWeatherData.weather[0].description,
         humidity: `${currentWeatherData.main.humidity}%`,
         pressure: `${currentWeatherData.main.pressure} hPa`,
@@ -215,9 +219,11 @@ const WeatherComponent = () => {
       </div>
       <div className="px-5 text-gray-200">
         <h1 className="text-5xl font-semibold">{weatherData.city}</h1>
-        <p className="text-xl ">{weatherData.currentDate}</p>
+        <p className="text-xl ">
+          {weatherData.currentDate}, {weatherData.updateTime}
+        </p>
       </div>
-      <div className="flex">
+      <div className="flex flex-col md:flex-row">
         <div className="flex w-1/2 items-center justify-center py-16">
           <div>
             <svg
@@ -237,7 +243,32 @@ const WeatherComponent = () => {
             <p className="text-xl">{weatherData.weatherDescription}</p>
           </div>
         </div>
-        <div className="flex"></div>
+        <div className="flex">
+          <div>
+            <p>{weatherData.maxTemp}</p>
+            <p>Hight</p>
+          </div>
+          <div>
+            <p>{weatherData.windSpeed}</p>
+            <p>Wind</p>
+          </div>
+          <div>
+            <p>{weatherData.sunrise}</p>
+            <p>Sunrise</p>
+          </div>
+          <div>
+            <p>{weatherData.minTemp}</p>
+            <p>Low</p>
+          </div>
+          <div>
+            <p>{weatherData.humidity}</p>
+            <p>Humidity</p>
+          </div>
+          <div>
+            <p>{weatherData.sunset}</p>
+            <p>Sunset</p>
+          </div>
+        </div>
       </div>
     </section>
   );

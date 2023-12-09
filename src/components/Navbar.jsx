@@ -8,12 +8,12 @@ const Header = () => {
   };
 
   return (
-    <div className="fixed top-0 z-50 w-full text-gray-700 shadow-sm  dark:text-gray-200">
+    <div className="bg-white-100/20 fixed top-0 z-50 w-full text-gray-200 shadow-sm backdrop-blur-lg backdrop-filter  ">
       <div className="mx-auto flex max-w-screen-xl flex-col px-4 md:flex-row md:items-center md:justify-between md:px-6 lg:px-8">
         <div className="flex flex-row items-center justify-between p-4">
           <a
             href="#"
-            className="focus:shadow-outline flex items-center justify-center gap-1 rounded-lg uppercase tracking-widest text-gray-900 focus:outline-none dark:text-white"
+            className="focus:shadow-outline flex items-center justify-center gap-1 rounded-lg uppercase tracking-widest  text-gray-200 focus:outline-none"
           >
             SkyCast
           </a>

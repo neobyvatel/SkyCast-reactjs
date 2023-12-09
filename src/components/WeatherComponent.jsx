@@ -81,17 +81,8 @@ const WeatherComponent = () => {
     const lang = "en";
     const units = "metric";
     const baseUrl = "https://api.openweathermap.org/data/2.5";
-
+    // return `https://invalid-url-for-testing/${endpoint}?city=${cityName}`;
     return `${baseUrl}/${endpoint}?q=${cityName}&appid=${key}&lang=${lang}&units=${units}`;
-  };
-  const fetchData = async (url) => {
-    try {
-      const resp = await fetch(url);
-      const data = await resp.json();
-      return [data, null];
-    } catch (err) {
-      return [null, err];
-    }
   };
 
   const handleFetchWeather = async () => {
@@ -99,20 +90,33 @@ const WeatherComponent = () => {
       showToast("Invalid input. Enter a city name.");
       return;
     }
-
-    const nowcastUrl = generateWeatherUrl(cityName, "weather");
-    const forecastUrl = generateWeatherUrl(cityName, "forecast");
-
-    const [nowcastData, nowcastErr] = await fetchData(nowcastUrl);
-    const [forecastData, forecastErr] = await fetchData(forecastUrl);
-    if (nowcastData[1] || forecastData[1]) {
-      console.error("Error fetching data: ", nowcastErr, forecastErr);
-      showToast("Error fetching data. ");
-    } else {
-      showWeather(nowcastData, forecastData);
-    }
-
     setCityName("");
+    try {
+      let urls = [
+        generateWeatherUrl(cityName, "weather"),
+        generateWeatherUrl(cityName, "forecast"),
+      ];
+      let requests = urls.map((url) => fetch(url));
+
+      const responses = await Promise.all(requests);
+      const data = await Promise.all(
+        responses.map(async (response) => {
+          const jsonData = await response.json();
+          if (response.ok) {
+            return jsonData;
+          } else {
+            throw new Error(jsonData.message || "Error fetching data");
+          }
+        })
+      );
+
+      if (data[0] && data[1]) {
+        showWeather(data[0], data[1]);
+      }
+    } catch (error) {
+      showToast(`Error fetching data: ${error.message}`);
+      console.error(`Error fetching data: ${error}`);
+    }
   };
 
   function showWeather(currentWeatherData, forecastData) {

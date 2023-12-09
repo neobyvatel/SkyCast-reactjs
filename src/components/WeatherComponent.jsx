@@ -26,7 +26,7 @@ const WeatherComponent = () => {
     minTemp: "--°C",
     maxTemp: "--°C",
     feelsLike: "--°C",
-    windSpeed: "wind speed: -- m/s",
+    windSpeed: "-- m/s",
     windDirection: "direction: --",
     pressure: "--",
     humidity: "--%",
@@ -217,14 +217,14 @@ const WeatherComponent = () => {
           </div>
         </form>
       </div>
-      <div className="px-5 text-gray-200">
+      <div className="px-7 text-gray-200">
         <h1 className="text-5xl font-semibold">{weatherData.city}</h1>
         <p className="text-xl ">
           {weatherData.currentDate}, {weatherData.updateTime}
         </p>
       </div>
-      <div className="flex flex-col md:flex-row">
-        <div className="flex w-1/2 items-center justify-center py-16">
+      <div className="flex flex-col gap-6 p-7 xl:flex-row">
+        <div className="flex flex-1 items-center justify-center gap-2 py-16">
           <div>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -238,35 +238,41 @@ const WeatherComponent = () => {
               ></path>
             </svg>
           </div>
-          <div className="[&>*]:">
-            <p className="text-5xl">{weatherData.temp}</p>
-            <p className="text-xl">{weatherData.weatherDescription}</p>
+          <div className="flex flex-col gap-4">
+            <p className="text-6xl font-semibold">{weatherData.temp}</p>
+            <p className="text-xl font-semibold">
+              {weatherData.weatherDescription}
+            </p>
           </div>
         </div>
-        <div className="flex">
-          <div>
-            <p>{weatherData.maxTemp}</p>
-            <p>Hight</p>
+        <div className="flex flex-1 flex-col items-center justify-center rounded-xl bg-neutral-100/10 text-xl font-thin tracking-wider backdrop-blur-lg backdrop-filter ">
+          <div className="flex flex-col md:flex-row [&>*]:flex [&>*]:flex-col [&>*]:items-center [&>*]:p-16">
+            <div className="">
+              <p className="font-semibold">{weatherData.maxTemp}</p>
+              <p>Hight</p>
+            </div>
+            <div>
+              <p className="font-semibold">{weatherData.windSpeed}</p>
+              <p>Wind</p>
+            </div>
+            <div>
+              <p className="font-semibold">{weatherData.sunrise}</p>
+              <p>Sunrise</p>
+            </div>
           </div>
-          <div>
-            <p>{weatherData.windSpeed}</p>
-            <p>Wind</p>
-          </div>
-          <div>
-            <p>{weatherData.sunrise}</p>
-            <p>Sunrise</p>
-          </div>
-          <div>
-            <p>{weatherData.minTemp}</p>
-            <p>Low</p>
-          </div>
-          <div>
-            <p>{weatherData.humidity}</p>
-            <p>Humidity</p>
-          </div>
-          <div>
-            <p>{weatherData.sunset}</p>
-            <p>Sunset</p>
+          <div className="flex flex-col md:flex-row [&>*]:flex [&>*]:flex-col [&>*]:items-center [&>*]:justify-center [&>*]:p-16">
+            <div>
+              <p className="font-semibold">{weatherData.minTemp}</p>
+              <p>Low</p>
+            </div>
+            <div>
+              <p className="font-semibold">{weatherData.humidity}</p>
+              <p>Humidity</p>
+            </div>
+            <div>
+              <p className="font-semibold">{weatherData.sunset}</p>
+              <p>Sunset</p>
+            </div>
           </div>
         </div>
       </div>

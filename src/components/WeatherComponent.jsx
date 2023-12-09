@@ -99,6 +99,7 @@ const WeatherComponent = () => {
       showToast("Invalid input. Enter a city name.");
       return;
     }
+
     const nowcastUrl = generateWeatherUrl(cityName, "weather");
     const forecastUrl = generateWeatherUrl(cityName, "forecast");
 
@@ -158,7 +159,7 @@ const WeatherComponent = () => {
   }
 
   return (
-    <section id="weather-area" className="text-white">
+    <section id="weather-area" className="text-neutral-100">
       <ToastContainer
         position="top-right"
         autoClose={3500}
@@ -170,9 +171,7 @@ const WeatherComponent = () => {
         pauseOnHover
         theme="colored"
       />
-
       <div className="flex w-full justify-center p-7">
-        {" "}
         <form className="mx-auto mb-10 mt-16 w-full lg:mx-0 lg:w-2/3">
           <label
             htmlFor="search"
@@ -246,8 +245,8 @@ const WeatherComponent = () => {
           </div>
         </div>
         <div className="flex flex-1 flex-col items-center justify-center rounded-xl bg-neutral-100/10 text-xl font-thin tracking-wider backdrop-blur-lg backdrop-filter ">
-          <div className="flex flex-col md:flex-row [&>*]:flex [&>*]:flex-col [&>*]:items-center [&>*]:p-16">
-            <div className="">
+          <div className="flex flex-col sm:flex-row [&>*]:flex [&>*]:flex-col [&>*]:items-center [&>*]:p-16">
+            <div>
               <p className="font-semibold">{weatherData.maxTemp}</p>
               <p>Hight</p>
             </div>
@@ -260,7 +259,7 @@ const WeatherComponent = () => {
               <p>Sunrise</p>
             </div>
           </div>
-          <div className="flex flex-col md:flex-row [&>*]:flex [&>*]:flex-col [&>*]:items-center [&>*]:justify-center [&>*]:p-16">
+          <div className="flex flex-col sm:flex-row [&>*]:flex [&>*]:flex-col [&>*]:items-center [&>*]:justify-center [&>*]:p-16">
             <div>
               <p className="font-semibold">{weatherData.minTemp}</p>
               <p>Low</p>

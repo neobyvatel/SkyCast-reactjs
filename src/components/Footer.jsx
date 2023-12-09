@@ -1,6 +1,6 @@
 function Footer() {
   return (
-    <footer className="z-50 mt-auto bg-transparent px-7 pb-10 pt-2 text-white  dark:text-slate-200">
+    <footer className="z-40 mt-auto bg-transparent px-7 pb-10 pt-2 text-white  dark:text-slate-200">
       <div
         id="contact"
         className="[&>:]:backdrop-blur-lg [&>:]:backdrop-filter flex gap-4 py-3 text-[#D0BCFF] [&>*]:rounded-full [&>*]:bg-neutral-100/10 [&>*]:p-2 [&>*]:dark:bg-[#1B1A1E]"

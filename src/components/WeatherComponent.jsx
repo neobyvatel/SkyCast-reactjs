@@ -1,10 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { CategoryScale, Chart } from "chart.js";
-
-// Register the CategoryScale
-Chart.register(CategoryScale);
+import "chart.js/auto";
+import { Chart } from "react-chartjs-2";
 
 const WeatherComponent = () => {
   const showToast = (message) =>
@@ -133,9 +131,9 @@ const WeatherComponent = () => {
         updateTime: getCurrentTime(),
         placeholderValue: `${currentWeatherData.name}, ${currentWeatherData.sys.country}`,
         city: `${currentWeatherData.name}, ${currentWeatherData.sys.country}`,
-        temp: `${currentWeatherData.main.temp}°C`,
-        minTemp: `${currentWeatherData.main.temp_min}°C`,
-        maxTemp: `${currentWeatherData.main.temp_max}°C`,
+        temp: `${Math.round(currentWeatherData.main.temp)}°C`,
+        minTemp: `${Math.round(currentWeatherData.main.temp_min)}°C`,
+        maxTemp: `${Math.round(currentWeatherData.main.temp_max)}°C`,
         feelsLike: `${currentWeatherData.main.feels_like}°C`,
         windSpeed: `${currentWeatherData.wind.speed} m/s`,
         windDirection: `${currentWeatherData.wind.deg}°`,
@@ -145,6 +143,42 @@ const WeatherComponent = () => {
         sunrise: formatTimeFromTimestamp(currentWeatherData.sys.sunrise),
         sunset: formatTimeFromTimestamp(currentWeatherData.sys.sunset),
         currentDate: getCurrentDate(),
+      });
+    }
+    if (forecastData && forecastData.list) {
+      const labels = [];
+      const data = [];
+      forecastData.list.forEach((item) => {
+        labels.push(formatTimeFromTimestamp(item.dt));
+        data.push(item.main.temp);
+      });
+      setChartData({
+        labels,
+        datasets: [
+          {
+            label: "Temperature",
+            data,
+            fill: false,
+            borderColor: "#D0BCFF",
+            borderWidth: 2,
+          },
+        ],
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                color: "#000000", // Set Y-axis tick font color to white
+              },
+            },
+            x: {
+              ticks: {
+                color: "white", // Set X-axis tick font color to white
+              },
+            },
+          },
+          responsive: true,
+        },
       });
     }
   }
@@ -161,6 +195,35 @@ const WeatherComponent = () => {
     const minutes = date.getMinutes();
     return `${hours}:${minutes < 10 ? "0" : ""}${minutes}`;
   }
+
+  // State for random line chart data
+  const [chartData, setChartData] = useState({
+    labels: [],
+    datasets: [
+      {
+        label: "Temperature",
+        data: [],
+        fill: false,
+        borderColor: "#D0BCFF",
+      },
+    ],
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            color: "#000000", // Set Y-axis tick font color to white
+          },
+        },
+        x: {
+          ticks: {
+            color: "white", // Set X-axis tick font color to white
+          },
+        },
+      },
+      responsive: true,
+    },
+  });
 
   return (
     <section id="weather-area" className="text-neutral-100">
@@ -222,7 +285,7 @@ const WeatherComponent = () => {
       </div>
       <div className="px-7 text-gray-200">
         <h1 className="text-5xl font-semibold">{weatherData.city}</h1>
-        <p className="text-xl ">
+        <p className="text-xl">
           {weatherData.currentDate}, {weatherData.updateTime}
         </p>
       </div>
@@ -278,6 +341,10 @@ const WeatherComponent = () => {
             </div>
           </div>
         </div>
+      </div>
+      <div className="p-7">
+        <h1 className="text-5xl font-semibold">Five days forecast:</h1>
+        <Chart type="line" data={chartData} className="p-8" />
       </div>
     </section>
   );
